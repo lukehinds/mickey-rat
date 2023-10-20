@@ -2,12 +2,12 @@
 requires = ["setuptools", "wheel"]
 
 [project]
-name = "mickey_rat"
+name = "lhinds"
 dynamic = ["version"]
 description = "Don't use this package."
 readme = "README.md"
 authors = [
-    { name = "Mickey Rat", email = "mickeyrat@gmail.com" }
+    { name = "Luke Hinds", email = "lukehinds@gmail.com" }
 ]
 
 classifiers = [
