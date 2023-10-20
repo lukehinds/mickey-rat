@@ -5,7 +5,7 @@ on:
     types:
       - published
 
-permissions: # added using https://github.com/step-security/secure-workflows
+permissions:
   contents: read
 
 jobs:
@@ -40,11 +40,14 @@ jobs:
     needs: [build]
     runs-on: ubuntu-latest
     permissions:
-      # Used to authenticate to PyPI via OIDC.
+      contents: write 
       id-token: write
     steps:
       - name: Download artifacts directories # goes to current working directory
         uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a # v3.0.2
+        with:
+          name: build-artifacts
+          path: dist
 
       - name: publish
         uses: pypa/gh-action-pypi-publish@b7f401de30cb6434a1e19f805ff006643653240e
@@ -62,11 +65,7 @@ jobs:
         uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a # v3.0.2
 
       - name: Upload artifacts to github
-        # Confusingly, this action also supports updating releases, not
-        # just creating them. This is what we want here, since we've manually
-        # created the release that triggered the action.
         uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844 # v1
         with:
-          # smoketest-artifacts/ contains the signatures and certificates.
           files: |
             built-packages/*
